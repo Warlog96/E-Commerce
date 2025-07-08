@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Order Success</title>
+    <link rel="stylesheet" href="Css/styles.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            text-align: center;
+            padding: 50px;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            max-width: 600px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            color: #4CAF50;
+        }
+        
+        #orderId {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="site-header">
+        Mindspawn Shoppings
+    </div>
+
+    <div class="container">
+        <h2>🎉 Thank you for your purchase!</h2>
+        <p>Your order has been placed successfully.</p>
+        <p>Order ID: <span id="orderId"></span></p>
+        <a href="index.html">← Back to Home</a>
+    </div>
+
+    <script>
+        // ✅ Extract "id" from the URL and display it
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get("id");
+        document.getElementById("orderId").textContent = id || "N/A";
+    </script>
+</body>
+
+</html>

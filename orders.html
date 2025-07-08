@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Orders</title>
+    <link rel="stylesheet" href="Css/styles.css">
+</head>
+
+<body>
+    <div class="site-header">
+        Mindspawn Shoppings
+    </div>
+
+    <h1>My Orders</h1>
+    <div id="ordersList"></div>
+    <a href="index.html">Continue Shopping</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async() => {
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    if (!user) {
+                        window.location.href = 'login.html';
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('http://localhost:5000/api/orders/user', {
+                            headers: {
+                                'Authorization': `Bearer ${user.token}`
+                            }
+                        });
+
+                        const orders = await response.json();
+                        const ordersList = document.getElementById('ordersList');
+
+                        if (orders.length === 0) {
+                            ordersList.innerHTML = '<p>No orders found</p>';
+                            return;
+                        }
+
+                        ordersList.innerHTML = orders.map(order => `
+          <div class="order-card">
+            <h3>Order #${order._id}</h3>
+            <p>Date: ${new Date(order.createdAt).toLocaleString()}</p>
+            <p>Status: ${order.status}</p>
+            <p>Total: ₹${order.total.toFixed(2)}</p>
+            <div class="order-products">
+              ${order.products.map(product => `
+                <div class="order-product">
+                  <p>${product.name} x${product.quantity}</p>
+                  <p>₹${product.price.toFixed(2)} each</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `).join('');
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('ordersList').innerHTML = 
+          '<p>Error loading orders</p>';
+      }
+    });
+    </script>
+</body>
+
+</html>

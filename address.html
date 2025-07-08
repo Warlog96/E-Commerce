@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Enter Shipping Address</title>
+    <link rel="stylesheet" href="Css/styles.css">
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        form {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px #ccc;
+        }
+        
+        input,
+        select {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+        
+        button {
+            background: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="site-header">
+        Mindspawn Shoppings
+    </div>
+
+    <form id="addressForm">
+        <h2>Shipping Address</h2>
+        <input type="text" id="street" placeholder="Street" required>
+        <input type="text" id="city" placeholder="City" required>
+        <input type="text" id="state" placeholder="State" required>
+        <input type="text" id="postalCode" placeholder="Postal Code" required>
+        <input type="text" id="country" placeholder="Country" required>
+        <button type="submit">Save Address</button>
+    </form>
+
+    <script>
+        document.getElementById('addressForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const address = {
+                street: document.getElementById('street').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value,
+                postalCode: document.getElementById('postalCode').value,
+                country: document.getElementById('country').value
+            };
+
+            let user = JSON.parse(localStorage.getItem('user'));
+            if (!user) {
+                alert("User not logged in.");
+                window.location.href = "login.html";
+                return;
+            }
+
+            user.address = address;
+            localStorage.setItem('user', JSON.stringify(user));
+
+            alert("Address saved!");
+            window.location.href = "cart.html"; // back to cart
+        });
+    </script>
+</body>
+
+</html>
